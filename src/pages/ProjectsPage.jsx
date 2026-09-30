@@ -5,7 +5,16 @@ import ProjectCard from "../components/ProjectCard.jsx";
 import Contact from "../components/Contact.jsx";
 
 export default function ProjectsPage() {
-  const [filter, setFilter] = useState("All");
+  // /projects?service=Android opens with that filter applied (used by the Services section).
+  const [filter, setFilterState] = useState(() => {
+    const s = new URLSearchParams(window.location.search).get("service");
+    return SERVICE_FILTERS.includes(s) ? s : "All";
+  });
+  const setFilter = (f) => {
+    setFilterState(f);
+    const query = f === "All" ? "" : `?service=${encodeURIComponent(f)}`;
+    window.history.replaceState(window.history.state, "", `/projects${query}`);
+  };
 
   useEffect(() => {
     document.title = "Projects — KaazLabs";

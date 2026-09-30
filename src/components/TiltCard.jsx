@@ -31,6 +31,7 @@ export default function TiltCard({ className = "", max = 6, children }) {
 
   const onLeave = () => {
     cancelAnimationFrame(frame.current);
+    if (!ref.current) return;
     ref.current.style.setProperty("--rx", "0deg");
     ref.current.style.setProperty("--ry", "0deg");
   };

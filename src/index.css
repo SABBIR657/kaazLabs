@@ -219,6 +219,354 @@ body {
   outline-offset: 6px;
 }
 
+/* ---------- accordions (services on phones, FAQ) ---------- */
+.accordion {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.accordion.is-open {
+  grid-template-rows: 1fr;
+}
+.accordion-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ---------- services detail panel ---------- */
+.service-panel {
+  animation: panel-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* ---------- why KaazLabs cards ---------- */
+.why-card::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  height: 2px;
+  background: #c6a15b;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.why-card:hover::before,
+.why-card:focus-within::before {
+  transform: scaleX(1);
+}
+.why-card:focus-within {
+  outline: 2px solid #c6a15b;
+  outline-offset: 4px;
+}
+/* on hover-capable screens the link slides in; on touch screens it's always visible */
+@media (hover: hover) {
+  .why-link {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 0.4s ease,
+      transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .why-card:hover .why-link,
+  .why-card:focus-within .why-link {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- contact form: pills and large underlined fields ---------- */
+.pill {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.7rem 1.4rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(238, 234, 226, 0.35);
+  color: #f3eee4;
+  font-size: clamp(1rem, 1.6vw, 1.3rem);
+  line-height: 1.2;
+  transition:
+    color 0.35s ease,
+    border-color 0.35s ease;
+}
+/* the fill rises from below on hover, and stays when selected */
+.pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: rgba(238, 234, 226, 0.1);
+  transform: translateY(101%);
+  transition:
+    transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1),
+    background-color 0.35s ease;
+}
+.pill:hover::before,
+.pill:focus-visible::before {
+  transform: translateY(0);
+}
+.pill.is-on {
+  color: #1a130e;
+  border-color: #c6a15b;
+}
+.pill.is-on::before {
+  transform: translateY(0);
+  background: #c6a15b;
+}
+.pill:focus-visible {
+  outline: 2px solid #c6a15b;
+  outline-offset: 3px;
+}
+.pill-lg {
+  padding: 1.35rem 2.9rem;
+  font-size: 1.1rem;
+}
+.pill.is-cta {
+  border-color: #c6a15b;
+}
+.pill.is-cta:hover {
+  color: #1a130e;
+}
+.pill.is-cta::before {
+  background: #c6a15b;
+}
+.pill-outline {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  padding: 0.55rem 1.25rem;
+}
+.brief-field {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(238, 234, 226, 0.22);
+  padding: 0.9rem 1.5rem 1.1rem 0;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  color: #f3eee4;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+.brief-field::placeholder {
+  color: rgba(185, 175, 160, 0.75);
+}
+.brief-field:focus {
+  border-color: #c6a15b;
+}
+.brief-field.has-error {
+  border-color: #e0a58f;
+}
+
+/* ---------- before / after slider ---------- */
+.pill-tab {
+  font-size: 15px;
+  padding: 0.55rem 1.25rem;
+}
+.compare {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  border: 1px solid rgba(238, 234, 226, 0.12);
+  background: #211912;
+  cursor: ew-resize;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7);
+}
+.compare-layer {
+  position: absolute;
+  inset: 0;
+}
+.compare-layer svg {
+  width: 100%;
+  height: 100%;
+}
+.compare-before {
+  clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0);
+}
+.compare-tag {
+  position: absolute;
+  top: 1rem;
+  z-index: 2;
+  padding: 0.35rem 0.8rem;
+  border-radius: 9999px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: #f3eee4;
+  background: rgba(26, 19, 14, 0.78);
+  pointer-events: none;
+}
+.compare-line {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  left: var(--pos, 50%);
+  width: 2px;
+  transform: translateX(-50%);
+  background: #c6a15b;
+  box-shadow: 0 0 18px rgba(198, 161, 91, 0.6);
+  pointer-events: none;
+}
+.compare-knob {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: var(--pos, 50%);
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
+  color: #1a130e;
+  background: #c6a15b;
+  box-shadow:
+    0 0 0 6px rgba(198, 161, 91, 0.22),
+    0 10px 24px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+  transition: box-shadow 0.3s ease;
+  cursor: grab;
+  outline: none;
+}
+.compare-knob:hover,
+.compare-knob:focus-visible {
+  box-shadow:
+    0 0 0 10px rgba(198, 161, 91, 0.3),
+    0 10px 24px rgba(0, 0, 0, 0.45);
+}
+.compare:active .compare-knob {
+  cursor: grabbing;
+}
+.compare-hint {
+  position: absolute;
+  top: calc(100% + 12px);
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  color: #f3eee4;
+  background: rgba(26, 19, 14, 0.8);
+  white-space: nowrap;
+  animation: hint-bob 1.6s ease-in-out infinite;
+}
+@keyframes hint-bob {
+  50% {
+    transform: translateY(3px);
+  }
+}
+@media (max-width: 640px) {
+  .compare-knob {
+    width: 42px;
+    height: 42px;
+  }
+  .compare-tag {
+    top: 0.6rem;
+    font-size: 10.5px;
+  }
+}
+
+/* ---------- process timeline ---------- */
+.process-list {
+  position: relative;
+  padding-left: 3rem;
+}
+.process-rail {
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: rgba(28, 23, 18, 0.12);
+}
+.process-fill {
+  position: absolute;
+  inset: 0;
+  background: #c6a15b;
+  transform-origin: top;
+  transform: scaleY(var(--progress, 0));
+}
+.process-step {
+  position: relative;
+  padding-bottom: 4.5rem;
+  opacity: 0.4;
+  transition: opacity 0.5s ease;
+}
+.process-step:last-child {
+  padding-bottom: 0;
+}
+.process-step.is-active {
+  opacity: 1;
+}
+.process-dot {
+  position: absolute;
+  left: calc(-3rem + 1px);
+  top: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: #eeeae2;
+  border: 2px solid rgba(28, 23, 18, 0.25);
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+.process-step.is-active .process-dot {
+  background: #c6a15b;
+  border-color: #c6a15b;
+  box-shadow: 0 0 0 6px rgba(198, 161, 91, 0.2);
+}
+.process-counter {
+  animation: panel-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ---------- FAQ plus / close icon ---------- */
+.faq-icon {
+  position: relative;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  border: 1px solid rgba(28, 23, 18, 0.2);
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+.faq-icon::before,
+.faq-icon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 1.5px;
+  background: #1c1712;
+  transform: translate(-50%, -50%);
+}
+.faq-icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+button:hover .faq-icon {
+  border-color: #c6a15b;
+}
+.faq-icon.is-open {
+  transform: rotate(45deg);
+  background: #c6a15b;
+  border-color: #c6a15b;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -230,6 +578,24 @@ body {
   .reveal {
     opacity: 1;
     transform: none;
+    transition: none;
+  }
+  .service-panel,
+  .process-counter,
+  .compare-hint {
+    animation: none;
+  }
+  .accordion,
+  .process-step,
+  .process-dot,
+  .faq-icon {
+    transition: none;
+  }
+  .pill,
+  .pill::before,
+  .brief-field,
+  .why-card::before,
+  .why-link {
     transition: none;
   }
   .tilt,

@@ -21,7 +21,7 @@ function Page() {
 export default function App() {
   return (
     <RouterProvider>
-      <div className="min-h-screen w-full overflow-x-hidden">
+      <div className="min-h-screen w-full overflow-x-clip">
         <Navbar />
         <main>
           <Suspense fallback={<div className="min-h-screen bg-espresso" />}>
