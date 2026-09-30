@@ -27,35 +27,150 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-@keyframes draw {
-  to {
-    stroke-dashoffset: 0;
+/* ---------- hero: 3D service stack ---------- */
+.stack-scene {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 1;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  perspective: 1400px;
+}
+.stack-tilt {
+  position: relative;
+  width: 56%;
+  aspect-ratio: 1;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(58deg + var(--ty, 0deg))) rotateZ(calc(-42deg + var(--tx, 0deg)));
+  transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+.stack-sway {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: stack-sway 14s ease-in-out infinite;
+}
+.stack-ground {
+  position: absolute;
+  inset: -22%;
+  border-radius: 9999px;
+  border: 1px dashed #3a2e22;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.45), transparent);
+  transform: translateZ(-70px);
+}
+.stack-layer {
+  --gap: 30px;
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(calc((var(--i) - 1.5) * var(--gap)));
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  animation:
+    layer-in 1s cubic-bezier(0.2, 0.7, 0.2, 1) backwards calc(0.15s + var(--i) * 0.12s),
+    layer-float 7s ease-in-out infinite calc(1.5s + var(--i) * 0.45s);
+}
+.stack-scene:hover .stack-layer {
+  --gap: 46px;
+}
+.stack-face {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(198, 161, 91, 0.28);
+  background-color: rgba(36, 27, 20, 0.9);
+  background-image:
+    linear-gradient(rgba(238, 234, 226, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(238, 234, 226, 0.045) 1px, transparent 1px);
+  background-size: 20px 20px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.35);
+}
+.stack-layer.is-top .stack-face {
+  border-color: rgba(198, 161, 91, 0.75);
+  background-color: rgba(42, 32, 23, 0.95);
+  box-shadow: 0 0 60px rgba(198, 161, 91, 0.12);
+}
+@keyframes layer-in {
+  from {
+    opacity: 0;
+    translate: 0 0 140px;
   }
 }
-.draw-line {
-  stroke-dasharray: 500;
-  stroke-dashoffset: 500;
-  animation: draw 1.8s ease forwards 0.3s;
+@keyframes layer-float {
+  0%,
+  100% {
+    translate: 0 0 0;
+  }
+  50% {
+    translate: 0 0 9px;
+  }
+}
+@keyframes stack-sway {
+  0%,
+  100% {
+    transform: rotateZ(-4deg);
+  }
+  50% {
+    transform: rotateZ(4deg);
+  }
 }
 
-@keyframes spin-slow {
-  to { transform: rotate(360deg); }
+/* ---------- scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: perspective(900px) translateY(28px) rotateX(9deg);
+  transform-origin: 50% 100%;
+  transition:
+    opacity 0.8s ease,
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.spin-slow {
-  animation: spin-slow 24s linear infinite;
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
 }
-@media (prefers-reduced-motion: reduce) {
-  .spin-slow {
-    animation: none;
-  }
+
+/* ---------- pointer tilt cards ---------- */
+.tilt {
+  position: relative;
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.tilt:hover {
+  transition-duration: 0.15s;
+}
+.tilt-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgba(198, 161, 91, 0.12),
+    transparent 60%
+  );
+}
+.tilt:hover .tilt-glare {
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .draw-line {
-    animation: none;
-    stroke-dashoffset: 0;
-  }
   html {
     scroll-behavior: auto;
+  }
+  .stack-layer,
+  .stack-sway {
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .tilt,
+  .stack-tilt,
+  .stack-layer {
+    transition: none;
   }
 }
