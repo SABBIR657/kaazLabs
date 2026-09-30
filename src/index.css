@@ -155,6 +155,70 @@ body {
   opacity: 1;
 }
 
+/* ---------- project covers ---------- */
+.cover {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  display: grid;
+  place-items: center;
+  perspective: 1600px;
+  background-color: #241b14;
+  border: 1px solid rgba(238, 234, 226, 0.08);
+  transition: border-color 0.5s ease;
+}
+.cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.7;
+  transition: opacity 0.6s ease;
+}
+.cover-gold::after {
+  background: radial-gradient(60% 55% at 78% 18%, rgba(198, 161, 91, 0.22), transparent 70%);
+}
+.cover-emerald::after {
+  background: radial-gradient(60% 55% at 78% 18%, rgba(94, 140, 115, 0.32), transparent 70%);
+}
+.cover-mock {
+  position: relative;
+  z-index: 1;
+  width: 84%;
+  border-radius: 10px;
+  box-shadow:
+    0 30px 60px -20px rgba(0, 0, 0, 0.7),
+    0 12px 24px -12px rgba(0, 0, 0, 0.5);
+  transform: translateY(5%) rotateX(14deg) rotateY(-12deg) rotateZ(2deg);
+  transition:
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.9s ease;
+  will-change: transform;
+}
+.cover-lg .cover-mock {
+  width: 78%;
+}
+.project-card:hover .cover,
+.project-card:focus-visible .cover {
+  border-color: rgba(198, 161, 91, 0.45);
+}
+.project-card:hover .cover::after,
+.project-card:focus-visible .cover::after {
+  opacity: 1;
+}
+.project-card:hover .cover-mock,
+.project-card:focus-visible .cover-mock,
+.project-card.is-hero .cover-mock {
+  transform: translateY(1%) rotateX(4deg) rotateY(-4deg) rotateZ(0.5deg) scale(1.03);
+  box-shadow:
+    0 40px 80px -24px rgba(0, 0, 0, 0.75),
+    0 16px 32px -14px rgba(0, 0, 0, 0.5);
+}
+.project-card:focus-visible {
+  outline: 2px solid #c6a15b;
+  outline-offset: 6px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -170,7 +234,8 @@ body {
   }
   .tilt,
   .stack-tilt,
-  .stack-layer {
+  .stack-layer,
+  .cover-mock {
     transition: none;
   }
 }

@@ -1,6 +1,7 @@
 // Edit everything in this file to update the site's content.
 // Nothing here is fetched from a backend — it's plain data, which is
 // enough until you add a CMS or admin panel later.
+// Portfolio projects and their case-study pages live in projects.js.
 
 export const CONTACT = {
   email: "hello@kaazlabs.com",
@@ -8,7 +9,13 @@ export const CONTACT = {
   whatsapp: "8801XXXXXXXXX",
 };
 
-export const NAV_LINKS = ["Services", "Work", "Mission", "Team", "Reviews"];
+export const NAV_LINKS = [
+  { label: "Services", href: "/#services" },
+  { label: "Work", href: "/#work" },
+  { label: "Mission", href: "/#mission" },
+  { label: "Team", href: "/#team" },
+  { label: "Reviews", href: "/#reviews" },
+];
 
 export const SERVICES = [
   {
@@ -26,32 +33,6 @@ export const SERVICES = [
   {
     title: "Cybersecurity",
     body: "Security audits, vulnerability testing, and hardening for web apps and infrastructure — built in from day one, not bolted on after something breaks.",
-  },
-];
-
-export const BUILT_WORK = [
-  {
-    name: "StudyTrack",
-    tag: "Personal productivity · MERN",
-    body: "A study and habit platform combining session logging, activity tracking, spaced-repetition flashcards, a Pomodoro timer, and a social leaderboard.",
-  },
-];
-
-export const CONCEPT_WORK = [
-  {
-    name: "Inventory & ERP, for small manufacturers",
-    problem: "Manual stock tracking leads to shortages, overstock, and no visibility across staff.",
-    solution: "A real-time inventory dashboard with automated reorder alerts and role-based staff access.",
-  },
-  {
-    name: "Property & tenant management",
-    problem: "Landlords track rent, maintenance requests, and tenant records across spreadsheets and phone calls.",
-    solution: "A single portal for rent collection, digital lease records, and maintenance ticketing.",
-  },
-  {
-    name: "School operations",
-    problem: "Admissions, attendance, and fees are handled on paper or across disconnected tools.",
-    solution: "One system for enrollment, attendance, fee collection, and parent communication.",
   },
 ];
 
