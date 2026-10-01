@@ -134,7 +134,7 @@ export default function BeforeAfter() {
           </div>
         </Reveal>
 
-        <Reveal delay={140}>
+        <Reveal delay={140} className="scroll-zoom">
           <div
             ref={frameRef}
             className="compare"

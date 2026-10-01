@@ -567,6 +567,106 @@ button:hover .faq-icon {
   border-color: #c6a15b;
 }
 
+/* ---------- scroll effects ---------- */
+.site-header {
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.site-header.is-hidden {
+  transform: translateY(-100%);
+}
+.site-header:focus-within {
+  transform: none;
+}
+.scroll-progress {
+  position: fixed;
+  z-index: 40;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #c6a15b;
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+.scrub-word {
+  color: rgba(28, 23, 18, 0.18);
+  transition: color 0.35s ease;
+}
+.scrub-word.is-lit {
+  color: #1c1712;
+}
+.cover {
+  view-timeline-name: --cover;
+}
+
+/* Scroll-linked animations, driven by the browser itself (no JavaScript while scrolling).
+   Browsers without support simply show everything in its final position. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-progress {
+      animation: grow-x linear both;
+      animation-timeline: scroll(root);
+    }
+    .hero-copy {
+      animation: hero-copy-out linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 85vh;
+    }
+    .hero-visual {
+      animation: hero-visual-out linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+    .cover-mock {
+      animation: cover-rise linear both;
+      animation-timeline: --cover;
+      animation-range: entry 0% cover 45%;
+    }
+    .scroll-zoom {
+      animation: scroll-zoom linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+  }
+}
+@keyframes grow-x {
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes hero-copy-out {
+  to {
+    translate: 0 -70px;
+    opacity: 0.2;
+  }
+}
+@keyframes hero-visual-out {
+  to {
+    translate: 0 110px;
+    scale: 0.88;
+    opacity: 0.35;
+  }
+}
+@keyframes cover-rise {
+  from {
+    translate: 0 14%;
+    scale: 0.93;
+  }
+  to {
+    translate: 0 0;
+    scale: 1;
+  }
+}
+@keyframes scroll-zoom {
+  from {
+    scale: 0.9;
+  }
+  to {
+    scale: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -591,6 +691,8 @@ button:hover .faq-icon {
   .faq-icon {
     transition: none;
   }
+  .site-header,
+  .scrub-word,
   .pill,
   .pill::before,
   .brief-field,

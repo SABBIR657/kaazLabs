@@ -9,7 +9,7 @@ export default function Hero() {
       className="grain relative bg-espresso pt-32 pb-24 md:pt-44 md:pb-32 overflow-hidden"
     >
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-[1.15fr_0.85fr] gap-16 items-center">
-        <div>
+        <div className="hero-copy">
           <Reveal as="p" className="text-[13px] tracking-[0.08em] text-gold mb-6">
             A software studio in Dhaka
           </Reveal>
@@ -36,7 +36,7 @@ export default function Hero() {
           </Reveal>
         </div>
 
-        <div className="w-full max-w-[320px] md:max-w-none mx-auto">
+        <div className="hero-visual w-full max-w-[320px] md:max-w-none mx-auto">
           <Stack3D />
         </div>
       </div>
